@@ -1024,7 +1024,7 @@
       Zindagi mein har khushi milti rahe, har sapna poora ho, aur jahan bhi ho — khush raho, mehfooz raho, aur pyaar se bhari zindagi jiyo. 💕<br><br>
       <strong style="color:var(--rose);">Saalgirah Mubarak Ho! 🎉</strong>
     </div>
-    <button class="restart-btn" onclick="goTo(0)">🔄 Shuruaat se dekho</button>
+    <button class="restart-btn" onclick="passwordUnlocked=false;goTo(0)">🔄 Shuruaat se dekho</button>
   </div>
 </div>
 
@@ -1036,15 +1036,21 @@
 <script>
 // ===== CONFIG =====
 const PASSWORD = 'sana'; // Yahan password change karo
-const BIRTHDAY = new Date('2025-12-01T00:00:00'); // Yahan birthday set karo
+const BIRTHDAY = new Date('2026-04-30T00:00:00'); // Sana ki birthday - 30 April 2026
 const TOTAL_SCREENS = 11;
 
 let current = 0;
 let candlesBlown = 0;
+let passwordUnlocked = false; // Password track karna
 
 // ===== NAVIGATION =====
 function goTo(n) {
   if (n < 0 || n >= TOTAL_SCREENS) return;
+  // Password check — screen 2 aur uske baad sirf password ke baad
+  if (n >= 2 && !passwordUnlocked) {
+    goTo(1); // Password screen pe bhejo
+    return;
+  }
   document.getElementById('s'+current).classList.remove('active');
   current = n;
   document.getElementById('s'+current).classList.add('active');
@@ -1083,6 +1089,7 @@ function checkPw() {
   const err = document.getElementById('pwErr');
   if (val === PASSWORD.toLowerCase()) {
     err.classList.remove('show');
+    passwordUnlocked = true; // Password sahi — unlock!
     goTo(2);
   } else {
     err.classList.add('show');
