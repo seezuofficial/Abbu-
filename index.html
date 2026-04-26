@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Happy Birthday Sana 🎂</title>
+<title>Happy Birthday Abbu 🎂</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Caveat:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -352,9 +352,13 @@
     cursor:pointer;
   }
   .polaroid:hover { transform:rotate(0deg) scale(1.05); box-shadow:6px 10px 30px rgba(0,0,0,0.6); }
-  .pol-emoji {
+  .polaroid img {
+    width:100%; aspect-ratio:1; object-fit:cover;
+    display:block; border-radius:2px;
+  }
+  .pol-fallback {
     width:100%; aspect-ratio:1;
-    display:flex; align-items:center; justify-content:center;
+    display:none; align-items:center; justify-content:center;
     font-size:clamp(36px,10vw,60px);
     background:linear-gradient(135deg,#ffe0e8,#ffd0e0);
     border-radius:2px;
@@ -362,6 +366,33 @@
   .pol-cap {
     font-family:'Caveat',cursive; font-size:clamp(12px,2.5vw,15px);
     color:#333; text-align:center; margin-top:7px; padding:0 3px;
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position:fixed; inset:0; background:rgba(0,0,0,0.95);
+    z-index:500; display:none;
+    align-items:center; justify-content:center;
+    flex-direction:column; gap:14px; padding:20px;
+  }
+  .lightbox.open { display:flex; }
+  .lightbox img {
+    max-width:95vw; max-height:75vh;
+    border-radius:10px;
+    box-shadow:0 0 60px rgba(255,107,138,0.3);
+    object-fit:contain;
+  }
+  .lb-cap {
+    font-family:'Caveat',cursive; font-size:clamp(17px,4vw,24px);
+    color:var(--cream); text-align:center;
+  }
+  .lb-close {
+    position:absolute; top:16px; right:20px;
+    font-size:36px; color:var(--cream);
+    cursor:pointer; background:none; border:none;
+    line-height:1; padding:4px 10px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* ===== S5 FLIP CARDS ===== */
@@ -682,7 +713,7 @@
   <div class="stars-bg" id="stars0"></div>
   <div class="cd-wrap">
     <div class="cd-badge">✨ A special day approaches ✨</div>
-    <div class="cd-title">Birthday of<br><span>Our Sana</span> 🌸</div>
+    <div class="cd-title">Birthday of<br><span>Our Abbu</span> 🌸</div>
     <div class="cd-sub">Counting down the moments...</div>
     <div class="clock-grid">
       <div class="cu"><span class="cn" id="cd-d">00</span><span class="cl">Days</span></div>
@@ -700,7 +731,7 @@
   <div class="pw-box">
     <div class="lock-ico">🔐</div>
     <div class="pw-title">Secret Entry</div>
-    <div class="pw-hint">Enter the special password to unlock Sana's surprise...</div>
+    <div class="pw-hint">Enter the special password to unlock Abbuuu ka surprise...</div>
     <input
       class="pw-input"
       id="pwInput"
@@ -721,7 +752,7 @@
   <div class="balloons" id="balloons"></div>
   <div class="entrance-wrap">
     <div class="etag">🎊 THE MOMENT IS HERE 🎊</div>
-    <div class="etitle">Happy<br><span class="pk">Birthday</span><br>Sana! 🌸</div>
+    <div class="etitle">Happy<br><span class="pk">Birthday</span><br>Abbuuu! 🌸</div>
     <div class="esub">Aaj ka din sirf tumhara hai 💕</div>
     <div class="ebetu">May all your dreams bloom like flowers 🌺</div>
     <button class="primary-btn" onclick="goTo(3)">See your journey ✨</button>
@@ -738,35 +769,35 @@
         <div class="tl-dot">👶</div>
         <div class="tl-content">
           <div class="tl-yr">THE BEGINNING</div>
-          <div class="tl-txt">Duniya mein aik khoobsurat sitara aaya — Sana! Uss din se har ghar roshni se bhar gaya. Tumhari hansi sabki khushi ban gayi. 🌟</div>
+          <div class="tl-txt">Duniya mein aik khoobsurat sitara aaya — Abbuuu! Uss din se har ghar roshni se bhar gaya. Tumhari hansi sabki khushi ban gayi. 🌟</div>
         </div>
       </div>
       <div class="tl-item" style="animation-delay:0.1s">
         <div class="tl-dot">🎒</div>
         <div class="tl-content">
           <div class="tl-yr">SCHOOL DAYS</div>
-          <div class="tl-txt">Chhoti si Sana, badi si zindagi ki taraf pehla qadam. Kitaaben, dost, aur khwaab — har din kuch naya seekha. Teri lagan ne hamesha sabko inspire kiya. 📚</div>
+          <div class="tl-txt">Chhoti si Abbuuu, badi si zindagi ki taraf pehla qadam. Kitaaben, dost, aur khwaab — har din kuch naya seekha. Teri lagan ne hamesha sabko inspire kiya. 📚</div>
         </div>
       </div>
       <div class="tl-item" style="animation-delay:0.2s">
         <div class="tl-dot">🌸</div>
         <div class="tl-content">
           <div class="tl-yr">GROWING UP</div>
-          <div class="tl-txt">Jaise phool khilta hai dhire dhire — Sana bhi khilti rahi. Nayi baatein, naye sapne, naye hausle. Har mushkil se muskura ke guzarna seekha. 🦋</div>
+          <div class="tl-txt">Jaise phool khilta hai dhire dhire — Abbuuu bhi khilti rahi. Nayi baatein, naye sapne, naye hausle. Har mushkil se muskura ke guzarna seekha. 🦋</div>
         </div>
       </div>
       <div class="tl-item" style="animation-delay:0.3s">
         <div class="tl-dot">💪</div>
         <div class="tl-content">
           <div class="tl-yr">CHALLENGES</div>
-          <div class="tl-txt">Zindagi ne jo bhi imtehaan diye, Sana ne har ek mein shujahat dikhaayi. Girna, uthna, aur phir chalna — yahi toh hai teri pehchaan! 🌈</div>
+          <div class="tl-txt">Zindagi ne jo bhi imtehaan diye, Abbuuu ne har ek mein shujahat dikhaayi. Girna, uthna, aur phir chalna — yahi toh hai teri pehchaan! 🌈</div>
         </div>
       </div>
       <div class="tl-item" style="animation-delay:0.4s">
         <div class="tl-dot">🎂</div>
         <div class="tl-content">
           <div class="tl-yr">TODAY 🎉</div>
-          <div class="tl-txt">Aur aaj — ek aur khoobsurat baras mukammal hua. Tu aur bhi pyaari, aur bhi hosiyaar, aur bhi teri apni ban gayi. Happy Birthday Sana! 💕</div>
+          <div class="tl-txt">Aur aaj — ek aur khoobsurat baras mukammal hua. Tu aur bhi pyaari, aur bhi hosiyaar, aur bhi teri apni ban gayi. Happy Birthday Abbuuu! 💕</div>
         </div>
       </div>
     </div>
@@ -777,42 +808,58 @@
 <div class="screen scroll-screen" id="s4">
   <div style="max-width:880px;margin:0 auto;width:100%;padding-top:20px;">
     <div class="sec-title">Pyaari Yadein 📸</div>
-    <div class="sec-sub">Dil ke album se kuch pann...</div>
+    <div class="sec-sub">Dil ke album se kuch pann... (tap karo fullscreen ke liye)</div>
     <div class="photo-grid">
-      <div class="polaroid" style="--r:-3deg">
-        <div class="pol-emoji">😂</div>
+      <div class="polaroid" style="--r:-3deg" onclick="openLightbox('photos/photo1.jpg','Haste haste pagal 🌸')">
+        <img src="photos/photo1.jpg" alt="Memory 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="pol-fallback">😂</div>
         <div class="pol-cap">Haste haste pagal 🌸</div>
       </div>
-      <div class="polaroid" style="--r:2deg">
-        <div class="pol-emoji">🌺</div>
+      <div class="polaroid" style="--r:2deg" onclick="openLightbox('photos/photo2.jpg','Beautiful like flowers 🌺')">
+        <img src="photos/photo2.jpg" alt="Memory 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="pol-fallback">🌺</div>
         <div class="pol-cap">Beautiful like flowers 🌺</div>
       </div>
-      <div class="polaroid" style="--r:-1.5deg">
-        <div class="pol-emoji">🥳</div>
-        <div class="pol-cap">Party wali Sana! 🎉</div>
+      <div class="polaroid" style="--r:-1.5deg" onclick="openLightbox('photos/photo3.jpg','Party wali Abbuuu! 🎉')">
+        <img src="photos/photo3.jpg" alt="Memory 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="pol-fallback">🥳</div>
+        <div class="pol-cap">Party wali Abbuuu! 🎉</div>
       </div>
-      <div class="polaroid" style="--r:3deg">
-        <div class="pol-emoji">💕</div>
+      <div class="polaroid" style="--r:3deg" onclick="openLightbox('photos/photo4.jpg','Full of love always 💕')">
+        <img src="photos/photo4.jpg" alt="Memory 4" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="pol-fallback">💕</div>
         <div class="pol-cap">Full of love always 💕</div>
       </div>
-      <div class="polaroid" style="--r:-2deg">
-        <div class="pol-emoji">✨</div>
+      <div class="polaroid" style="--r:-2deg" onclick="openLightbox('photos/photo5.jpg','Shining always ✨')">
+        <img src="photos/photo5.jpg" alt="Memory 5" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="pol-fallback">✨</div>
         <div class="pol-cap">Shining always ✨</div>
       </div>
-      <div class="polaroid" style="--r:1.5deg">
-        <div class="pol-emoji">🦋</div>
+      <div class="polaroid" style="--r:1.5deg" onclick="openLightbox('photos/photo6.jpg','Free spirit 🦋')">
+        <img src="photos/photo6.jpg" alt="Memory 6" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="pol-fallback">🦋</div>
         <div class="pol-cap">Free spirit 🦋</div>
       </div>
-      <div class="polaroid" style="--r:-3.5deg">
-        <div class="pol-emoji">🌟</div>
+      <div class="polaroid" style="--r:-3.5deg" onclick="openLightbox('photos/photo7.jpg','Our star 🌟')">
+        <img src="photos/photo7.jpg" alt="Memory 7" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="pol-fallback">🌟</div>
         <div class="pol-cap">Our star 🌟</div>
       </div>
-      <div class="polaroid" style="--r:2.5deg">
-        <div class="pol-emoji">🎂</div>
+      <div class="polaroid" style="--r:2.5deg" onclick="openLightbox('photos/photo8.jpg','Birthday girl! 🎂')">
+        <img src="photos/photo8.jpg" alt="Memory 8" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="pol-fallback">🎂</div>
         <div class="pol-cap">Birthday girl! 🎂</div>
       </div>
     </div>
+    <div class="audio-note">💡 GitHub mein photos/ folder mein photo1.jpg ... photo8.jpg rakho</div>
   </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-cap" id="lbCap"></div>
 </div>
 
 <!-- ===== SCREEN 5: FLIP CARDS - REASONS ===== -->
@@ -836,7 +883,7 @@
       <div class="fc" onclick="this.classList.toggle('flipped')">
         <div class="fi">
           <div class="ff"><div class="fn">03</div><div class="ft">TAP TO REVEAL</div></div>
-          <div class="fb"><div class="fr">Mushkilon mein bhi muskurana — yeh sirf Sana hi kar sakti hai 🌸</div></div>
+          <div class="fb"><div class="fr">Mushkilon mein bhi muskurana — yeh sirf Abbuuu hi kar sakti hai 🌸</div></div>
         </div>
       </div>
       <div class="fc" onclick="this.classList.toggle('flipped')">
@@ -854,7 +901,7 @@
       <div class="fc" onclick="this.classList.toggle('flipped')">
         <div class="fi">
           <div class="ff"><div class="fn">06</div><div class="ft">TAP TO REVEAL</div></div>
-          <div class="fb"><div class="fr">Zindagi mein tera hona ek naimat hai — shukriya Sana 🌟</div></div>
+          <div class="fb"><div class="fr">Zindagi mein tera hona ek naimat hai — shukriya Abbuuu 🌟</div></div>
         </div>
       </div>
     </div>
@@ -868,12 +915,12 @@
     <div class="letter-paper">
       <div class="l-date">Aaj ka khoobsurat din 🌸</div>
       <div class="l-text">
-        <p>Pyaari Sana,</p>
+        <p>Pyaare Abbuuu,</p>
         <p>Yeh khat likhne ki zaroorat isliye padi kyunki kuch baatein sirf alfaaz mein hi keh sakte hain...</p>
         <p>Tum sirf ek naam nahi — tum ek ehsaas ho. Jab tum hoti ho toh sab kuch thoda behtar lagta hai. Tumhari hansi ek dawa hai, tumhara andaaz ek umeed hai.</p>
         <p>Har mushkil mein tumne sabar rakha, har khushi mein dil khol ke celebrate kiya — yahi teri khasiyat hai jo sabse alag hai. 🌺</p>
         <p>Is birthday par dua hai ke har sapna poora ho, har khwaish puri ho, aur zindagi ke har mod par khushi tumhara saath de. Tum jahan bhi jao — chamko, khilao, aur dil se jeeo. 💕</p>
-        <p>Tumhara har pal mubarak ho, Sana. Duniya tere intezaar mein hai! 🌟</p>
+        <p>Tumhara har pal mubarak ho, Abbuuu. Duniya tere intezaar mein hai! 🌟</p>
       </div>
       <div class="l-sign">
         Dil se, tumhare chahne waale 🌸<br>
@@ -889,7 +936,8 @@
     <div class="sec-title">Songs For You 🎵</div>
     <div class="sec-sub">Teri pasand ke gaane... 🎶</div>
     <div class="songs-grid">
-      <div class="song-card" onclick="openSong('https://www.youtube.com/watch?v=kffacxfA7G4')">
+
+      <div class="song-card" onclick="playSong(this, 'songs/song1.mp3')">
         <div class="s-disc">🎵</div>
         <div class="s-info">
           <div class="s-name">Tum Hi Ho</div>
@@ -898,7 +946,8 @@
         <div class="s-play">▶</div>
         <div class="s-bar"><div class="s-fill"></div></div>
       </div>
-      <div class="song-card" onclick="openSong('https://www.youtube.com/watch?v=V4jSO2nEvlk')">
+
+      <div class="song-card" onclick="playSong(this, 'songs/song2.mp3')">
         <div class="s-disc">🎶</div>
         <div class="s-info">
           <div class="s-name">Ik Vaari Aa</div>
@@ -907,7 +956,8 @@
         <div class="s-play">▶</div>
         <div class="s-bar"><div class="s-fill"></div></div>
       </div>
-      <div class="song-card" onclick="openSong('https://www.youtube.com/watch?v=Q44JMpBtlFE')">
+
+      <div class="song-card" onclick="playSong(this, 'songs/song3.mp3')">
         <div class="s-disc">🌸</div>
         <div class="s-info">
           <div class="s-name">Raabta</div>
@@ -916,7 +966,8 @@
         <div class="s-play">▶</div>
         <div class="s-bar"><div class="s-fill"></div></div>
       </div>
-      <div class="song-card" onclick="openSong('https://www.youtube.com/watch?v=tMCv4nJEVvE')">
+
+      <div class="song-card" onclick="playSong(this, 'songs/song4.mp3')">
         <div class="s-disc">💕</div>
         <div class="s-info">
           <div class="s-name">Ae Dil Hai Mushkil</div>
@@ -925,7 +976,8 @@
         <div class="s-play">▶</div>
         <div class="s-bar"><div class="s-fill"></div></div>
       </div>
-      <div class="song-card" onclick="openSong('https://www.youtube.com/watch?v=YFbFcCPCLlQ')">
+
+      <div class="song-card" onclick="playSong(this, 'songs/song5.mp3')">
         <div class="s-disc">🌟</div>
         <div class="s-info">
           <div class="s-name">Gerua</div>
@@ -934,7 +986,8 @@
         <div class="s-play">▶</div>
         <div class="s-bar"><div class="s-fill"></div></div>
       </div>
-      <div class="song-card" onclick="openSong('https://www.youtube.com/watch?v=gBgCVm9evCo')">
+
+      <div class="song-card" onclick="playSong(this, 'songs/song6.mp3')">
         <div class="s-disc">✨</div>
         <div class="s-info">
           <div class="s-name">Meri Aashiqui</div>
@@ -943,8 +996,9 @@
         <div class="s-play">▶</div>
         <div class="s-bar"><div class="s-fill"></div></div>
       </div>
+
     </div>
-    <div class="audio-note">💡 Tap any song to open on YouTube</div>
+    <div class="audio-note">💡 GitHub mein songs/ folder mein song1.mp3 ... song6.mp3 rakho</div>
   </div>
 </div>
 
@@ -982,7 +1036,7 @@
       <div class="wish-card">
         <div class="wish-ico">🎂</div>
         <div class="wish-ttl">Saalgirah Mubarak</div>
-        <div class="wish-txt-c">Happy Birthday Sana! Yeh tera din hai — aaj sab kuch bhool ke sirf khushi mana! 🎉🎊🎁</div>
+        <div class="wish-txt-c">Happy Birthday Abbuuu! Yeh tera din hai — aaj sab kuch bhool ke sirf khushi mana! 🎉🎊🎁</div>
       </div>
     </div>
   </div>
@@ -1018,7 +1072,7 @@
   <div class="fin-wrap">
     <div class="fin-ico">🌸</div>
     <div class="fin-title">
-      Happy Birthday,<br><span>Sana!</span> 🎂
+      Happy Birthday,<br><span>Abbuuu!</span> 🎂
     </div>
     <div class="fin-sub">
       Zindagi mein har khushi milti rahe, har sapna poora ho, aur jahan bhi ho — khush raho, mehfooz raho, aur pyaar se bhari zindagi jiyo. 💕<br><br>
@@ -1036,7 +1090,7 @@
 <script>
 // ===== CONFIG =====
 const PASSWORD = 'sana'; // Yahan password change karo
-const BIRTHDAY = new Date('2026-04-30T00:00:00'); // Sana ki birthday - 30 April 2026
+const BIRTHDAY = new Date('2026-04-30T00:00:00'); // Abbuuu ki birthday - 30 April 2026
 const TOTAL_SCREENS = 11;
 
 let current = 0;
@@ -1179,9 +1233,81 @@ setInterval(() => {
   cursor.textContent = emojis[ei];
 }, 1200);
 
-// ===== SONGS =====
-function openSong(url) {
-  window.open(url, '_blank');
+// ===== SONGS - MP3 PLAYER =====
+let currentAudio = null;
+let currentCard = null;
+
+function playSong(card, src) {
+  const fill = card.querySelector('.s-fill');
+  const playBtn = card.querySelector('.s-play');
+
+  // Agar same card dobara tap hua
+  if (currentCard === card && currentAudio) {
+    if (currentAudio.paused) {
+      currentAudio.play();
+      card.classList.add('playing');
+      playBtn.textContent = '⏸';
+    } else {
+      currentAudio.pause();
+      card.classList.remove('playing');
+      playBtn.textContent = '▶';
+    }
+    return;
+  }
+
+  // Pehle wala band karo
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    if (currentCard) {
+      currentCard.classList.remove('playing');
+      currentCard.querySelector('.s-play').textContent = '▶';
+      currentCard.querySelector('.s-fill').style.width = '0';
+    }
+  }
+
+  // Naya audio chalao
+  currentAudio = new Audio(src);
+  currentCard = card;
+  card.classList.add('playing');
+  playBtn.textContent = '⏸';
+
+  currentAudio.play().catch(() => {
+    card.classList.remove('playing');
+    playBtn.textContent = '▶';
+    alert('Song load nahi hua. GitHub mein songs/ folder check karo.');
+  });
+
+  // Progress bar
+  currentAudio.addEventListener('timeupdate', () => {
+    if (currentAudio.duration) {
+      fill.style.width = (currentAudio.currentTime / currentAudio.duration * 100) + '%';
+    }
+  });
+
+  currentAudio.addEventListener('ended', () => {
+    card.classList.remove('playing');
+    playBtn.textContent = '▶';
+    fill.style.width = '0';
+    currentAudio = null;
+    currentCard = null;
+  });
+}
+
+// ===== LIGHTBOX =====
+function openLightbox(src, cap) {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lbImg');
+  const capEl = document.getElementById('lbCap');
+  img.src = src;
+  capEl.textContent = cap;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 // ===== CAKE CANDLES =====
@@ -1204,7 +1330,7 @@ function blowCandles() {
   candlesBlown = toBlowNow;
 
   if(candlesBlown >= 5) {
-    document.getElementById('cakeWish').textContent = '🎉 Sabhi mombattiyan bujha deen! Tumhari mannat zaroor poori hogi! Happy Birthday Sana! 🌸💕';
+    document.getElementById('cakeWish').textContent = '🎉 Sabhi mombattiyan bujha deen! Tumhari mannat zaroor poori hogi! Happy Birthday Abbuuu! 🌸💕';
     launchConfetti();
   } else {
     document.getElementById('cakeWish').textContent = `💨 ${5-candlesBlown} aur baqi hain... phoonk maaro!`;
