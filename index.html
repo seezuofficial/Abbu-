@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Abbuuuu 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Caveat:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #F5A623;
+    --amber: #E8760A;
+    --cream: #FFF8EE;
+    --rose: #FF6B8A;
+    --deep: #1A0A00;
+    --warm: #3D1C00;
+    --text-dark: #2C1500;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--deep);
+    overflow: hidden;
+    cursor: none;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 20px; height: 20px;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 16px;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+  }
+
+  /* ======= SCREENS ======= */
+  .screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
+    overflow: hidden;
+  }
+  .screen.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ======= CANVAS ======= */
+  #confettiCanvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* ======= SCREEN 0: COUNTDOWN ======= */
+  #s0 {
+    background: radial-gradient(ellipse at 30% 40%, #3D1A00 0%, #1A0800 50%, #0D0400 100%);
+  }
+  .stars-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle var(--d) ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+  }
+
+  .countdown-wrapper {
+    text-align: center;
+    z-index: 2;
+    padding: 20px;
+  }
+  .countdown-badge {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(14px, 3vw, 20px);
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+  .countdown-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 7vw, 72px);
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .countdown-title span { color: var(--gold); }
+  .countdown-sub {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(18px, 3.5vw, 28px);
+    color: rgba(245,166,35,0.7);
+    margin-bottom: 50px;
+  }
+
+  .clock-grid {
+    display: flex;
+    gap: clamp(12px, 3vw, 28px);
+    justify-content: center;
+    margin-bottom: 50px;
+  }
+  .clock-unit {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(245,166,35,0.3);
+    border-radius: 16px;
+    padding: clamp(16px, 3vw, 28px) clamp(20px, 4vw, 40px);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+  .clock-unit::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .clock-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 8vw, 80px);
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+    text-shadow: 0 0 30px rgba(245,166,35,0.5);
+  }
+  .clock-label {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(12px, 2vw, 16px);
+    color: rgba(255,248,238,0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 8px;
+    display: block;
+  }
+
+  .birthday-btn {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(16px, 2.5vw, 22px);
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    color: var(--deep);
+    border: none;
+    border-radius: 50px;
+    padding: clamp(14px, 2vw, 18px) clamp(30px, 5vw, 56px);
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 30px rgba(245,166,35,0.4);
+    transition: all 0.3s;
+    animation: pulse-btn 2s ease-in-out infinite;
+  }
+  .birthday-btn:hover { transform: scale(1.05); box-shadow: 0 12px 40px rgba(245,166,35,0.6); }
+  @keyframes pulse-btn {
+    0%, 100% { box-shadow: 0 8px 30px rgba(245,166,35,0.4); }
+    50% { box-shadow: 0 8px 50px rgba(245,166,35,0.7); }
+  }
+
+  .birthday-arrived {
+    display: none;
+    font-family: 'Caveat', cursive;
+    font-size: clamp(18px, 3vw, 26px);
+    color: var(--rose);
+    margin-top: 20px;
+    animation: bounce 0.5s ease infinite alternate;
+  }
+  @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+
+  /* ======= PASSWORD SCREEN ======= */
+  #s1 {
+    background: radial-gradient(ellipse at 60% 30%, #2A0F00 0%, #120500 100%);
+  }
+  .lock-emoji { font-size: clamp(50px, 10vw, 80px); margin-bottom: 20px; animation: wiggle 2s ease-in-out infinite; }
+  @keyframes wiggle { 0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)} }
+
+  .pw-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 5vw, 42px);
+    color: var(--cream);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .pw-hint {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(14px, 2.5vw, 20px);
+    color: rgba(245,166,35,0.6);
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .pw-input-wrap {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .pw-input {
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(245,166,35,0.3);
+    border-radius: 50px;
+    padding: 16px 56px 16px 28px;
+    font-family: 'Caveat', cursive;
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--cream);
+    outline: none;
+    width: 100%;
+    min-width: 280px;
+    transition: border-color 0.3s;
+    text-align: center;
+    letter-spacing: 3px;
+  }
+  .pw-input:focus { border-color: var(--gold); }
+  .pw-input::placeholder { color: rgba(255,248,238,0.3); letter-spacing: 1px; }
+  .pw-btn {
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    border: none;
+    border-radius: 50px;
+    padding: 16px 44px;
+    font-family: 'Caveat', cursive;
+    font-size: clamp(16px, 2.5vw, 20px);
+    font-weight: 700;
+    color: var(--deep);
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+  }
+  .pw-btn:hover { transform: scale(1.03); }
+  .pw-error {
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+    color: var(--rose);
+    margin-top: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    text-align: center;
+  }
+  .pw-error.show { opacity: 1; }
+
+  /* ======= SCREEN 2: GRAND ENTRANCE ======= */
+  #s2 {
+    background: linear-gradient(135deg, #2A0800 0%, #1A0500 50%, #0D0300 100%);
+  }
+  .balloons {
+    position: absolute;
+    bottom: -100px;
+    width: 100%;
+    pointer-events: none;
+  }
+  .balloon {
+    position: absolute;
+    bottom: 0;
+    font-size: clamp(30px, 5vw, 50px);
+    animation: float-up var(--dur) ease-in infinite;
+    animation-delay: var(--delay);
+  }
+  @keyframes float-up {
+    0% { transform: translateY(0) rotate(-5deg); opacity: 1; }
+    100% { transform: translateY(-110vh) rotate(10deg); opacity: 0; }
+  }
+  .entrance-content { text-align: center; z-index: 2; padding: 20px; }
+  .entrance-tag {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(14px, 2.5vw, 20px);
+    color: var(--gold);
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    animation: fadeInDown 1s ease both;
+  }
+  .entrance-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 9vw, 96px);
+    color: var(--cream);
+    line-height: 1.0;
+    margin-bottom: 16px;
+    animation: fadeInDown 1s 0.2s ease both;
+  }
+  .entrance-title .gold { color: var(--gold); }
+  .entrance-sub {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(20px, 4vw, 36px);
+    color: rgba(255,248,238,0.7);
+    margin-bottom: 40px;
+    animation: fadeInDown 1s 0.4s ease both;
+  }
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ======= SCREEN 3: TIMELINE ======= */
+  #s3 {
+    background: linear-gradient(160deg, #1F0900 0%, #2D1000 100%);
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding: 40px 20px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 5vw, 52px);
+    color: var(--cream);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: rgba(245,166,35,0.7);
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .timeline {
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    padding-bottom: 60px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .tl-item {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 36px;
+    animation: slideInLeft 0.6s ease both;
+  }
+  .tl-item:nth-child(2) { animation-delay: 0.1s; }
+  .tl-item:nth-child(3) { animation-delay: 0.2s; }
+  .tl-item:nth-child(4) { animation-delay: 0.3s; }
+  .tl-item:nth-child(5) { animation-delay: 0.4s; }
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .tl-dot {
+    min-width: 60px; height: 60px;
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 0 20px rgba(245,166,35,0.4);
+    flex-shrink: 0;
+  }
+  .tl-content {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(245,166,35,0.15);
+    border-radius: 16px;
+    padding: 18px 22px;
+    flex: 1;
+  }
+  .tl-year {
+    font-family: 'Caveat', cursive;
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .tl-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(14px, 2vw, 17px);
+    color: rgba(255,248,238,0.85);
+    line-height: 1.6;
+  }
+
+  /* ======= SCREEN 4: PHOTO GALLERY ======= */
+  #s4 {
+    background: linear-gradient(135deg, #0D0500 0%, #200C00 100%);
+    overflow-y: auto;
+    padding: 40px 16px;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(180px, 45vw), 1fr));
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    padding-bottom: 80px;
+  }
+  .polaroid {
+    background: #fff;
+    padding: 10px 10px 36px;
+    border-radius: 4px;
+    box-shadow: 4px 6px 20px rgba(0,0,0,0.5);
+    transform: rotate(var(--r));
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .polaroid:hover { transform: rotate(0deg) scale(1.05); box-shadow: 6px 10px 30px rgba(0,0,0,0.6); }
+  .polaroid img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+    border-radius: 2px;
+  }
+  .polaroid-caption {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(13px, 2.5vw, 16px);
+    color: #333;
+    text-align: center;
+    margin-top: 8px;
+    padding: 0 4px;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 500;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 70vh; border-radius: 8px; box-shadow: 0 0 60px rgba(245,166,35,0.3); }
+  .lightbox-caption {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(18px, 3vw, 26px);
+    color: var(--cream);
+    text-align: center;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 24px;
+    font-size: 32px;
+    color: var(--cream);
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  /* ======= SCREEN 5: FLIP CARDS ======= */
+  #s5 {
+    background: radial-gradient(ellipse at 50% 0%, #2A1000 0%, #0D0400 100%);
+    overflow-y: auto;
+    padding: 40px 16px;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  .flip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(160px, 42vw), 1fr));
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    padding-bottom: 80px;
+  }
+  .flip-card {
+    height: clamp(140px, 22vw, 180px);
+    perspective: 1000px;
+    cursor: pointer;
+  }
+  .flip-inner {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+  }
+  .flip-front {
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    flex-direction: column;
+    gap: 8px;
+  }
+  .flip-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 7vw, 56px);
+    color: var(--deep);
+    font-weight: 900;
+  }
+  .flip-tap {
+    font-family: 'Caveat', cursive;
+    font-size: 12px;
+    color: rgba(26,10,0,0.6);
+    letter-spacing: 2px;
+  }
+  .flip-back {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(245,166,35,0.3);
+    transform: rotateY(180deg);
+    text-align: center;
+  }
+  .flip-reason {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(14px, 2.5vw, 18px);
+    color: var(--cream);
+    line-height: 1.4;
+  }
+
+  /* ======= SCREEN 6: LETTER ======= */
+  #s6 {
+    background: linear-gradient(135deg, #1A0800 0%, #0D0400 100%);
+    overflow-y: auto;
+    padding: 40px 16px;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  .letter-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    width: 100%;
+    padding-bottom: 80px;
+  }
+  .letter-paper {
+    background: linear-gradient(160deg, #FFF8EE, #FFF0D0);
+    border-radius: 4px;
+    padding: clamp(24px, 5vw, 48px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 0 60px rgba(200,150,0,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .letter-paper::before {
+    content: '';
+    position: absolute;
+    left: 60px; top: 0; bottom: 0;
+    width: 2px;
+    background: rgba(245,166,35,0.3);
+  }
+  .letter-paper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(transparent, transparent 31px, rgba(200,150,0,0.15) 31px, rgba(200,150,0,0.15) 32px);
+    pointer-events: none;
+  }
+  .letter-date {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(14px, 2.5vw, 18px);
+    color: rgba(44,21,0,0.5);
+    text-align: right;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .letter-text {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(17px, 2.8vw, 22px);
+    color: var(--text-dark);
+    line-height: 2;
+    position: relative;
+    z-index: 1;
+  }
+  .letter-text p { margin-bottom: 20px; }
+  .letter-sign {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(20px, 3.5vw, 28px);
+    color: var(--amber);
+    margin-top: 24px;
+    text-align: right;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ======= SCREEN 7: CAKE ======= */
+  #s7 {
+    background: radial-gradient(ellipse at 50% 80%, #2D0800 0%, #0D0300 70%);
+  }
+  .cake-container { text-align: center; z-index: 2; }
+  .cake-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 5vw, 52px);
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .cake-sub {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(16px, 3vw, 24px);
+    color: rgba(245,166,35,0.7);
+    margin-bottom: 30px;
+  }
+
+  /* CSS Cake */
+  .cake {
+    position: relative;
+    display: inline-block;
+    margin: 0 auto 30px;
+  }
+  .candle-row {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 4px;
+  }
+  .candle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .flame {
+    width: 12px; height: 22px;
+    background: radial-gradient(ellipse, #fff 10%, #FFD700 40%, #FF8C00 70%, transparent 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flicker 0.5s ease-in-out infinite alternate;
+    box-shadow: 0 0 8px #FFD700, 0 0 16px #FF8C00;
+    transition: all 0.3s;
+  }
+  .flame.out { opacity: 0; transform: scale(0); }
+  @keyframes flicker {
+    0% { transform: scaleX(1) scaleY(1) rotate(-2deg); }
+    100% { transform: scaleX(0.85) scaleY(1.1) rotate(2deg); }
+  }
+  .candle-body {
+    width: 10px; height: 40px;
+    background: linear-gradient(90deg, #FFB6C1, #FF69B4, #FFB6C1);
+    border-radius: 2px;
+  }
+  .cake-top {
+    width: clamp(160px, 35vw, 240px);
+    height: clamp(50px, 10vw, 70px);
+    background: linear-gradient(135deg, #F48024, #E06010);
+    border-radius: 50% 50% 0 0 / 40% 40% 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .cake-top::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 18px;
+    background: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.2) 20px, rgba(255,255,255,0.2) 22px);
+  }
+  .cake-mid {
+    width: clamp(180px, 40vw, 270px);
+    height: clamp(55px, 11vw, 80px);
+    background: linear-gradient(135deg, #D44000, #B83000);
+    position: relative;
+    overflow: hidden;
+  }
+  .cake-mid::after {
+    content: '🍓 🎂 🍓';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(14px, 3vw, 20px);
+    letter-spacing: 8px;
+  }
+  .cake-bot {
+    width: clamp(200px, 45vw, 300px);
+    height: clamp(60px, 12vw, 90px);
+    background: linear-gradient(135deg, #C03000, #A02000);
+    border-radius: 0 0 12px 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cake-bot::after {
+    content: '🎉 Happy Birthday 🎉';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(11px, 2vw, 15px);
+    color: rgba(255,255,255,0.8);
+    white-space: nowrap;
+    font-family: 'Caveat', cursive;
+  }
+  .plate {
+    width: clamp(220px, 50vw, 340px);
+    height: 20px;
+    background: linear-gradient(135deg, #eee, #ccc);
+    border-radius: 50%;
+    margin: 0 auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+
+  .blow-btn {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(16px, 2.5vw, 22px);
+    background: linear-gradient(135deg, var(--rose), #FF4466);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: clamp(12px, 2vw, 16px) clamp(28px, 4vw, 48px);
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(255,107,138,0.4);
+    transition: all 0.3s;
+    margin-bottom: 16px;
+  }
+  .blow-btn:hover { transform: scale(1.05); }
+  .wish-text {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(14px, 2.5vw, 20px);
+    color: rgba(245,166,35,0.8);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ======= SCREEN 8: FINAL ======= */
+  #s8 {
+    background: radial-gradient(ellipse at 50% 50%, #1A0500 0%, #080200 100%);
+  }
+  .final-stars { position: absolute; inset: 0; overflow: hidden; }
+  .final-content { text-align: center; z-index: 2; padding: 20px; }
+  .final-emoji { font-size: clamp(40px, 8vw, 70px); margin-bottom: 20px; animation: pulse-scale 2s ease-in-out infinite; }
+  @keyframes pulse-scale { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+  .final-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 5vw, 52px);
+    color: var(--cream);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .final-msg {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(18px, 3.5vw, 30px);
+    color: rgba(245,166,35,0.9);
+    max-width:
